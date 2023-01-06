@@ -56,8 +56,8 @@ body {
   padding: 0;
 }
 
-.square {
-  background: #fff;
+.square,
+.square-winner {
   border: 1px solid #999;
   float: left;
   font-size: 24px;
@@ -71,9 +71,17 @@ body {
   width: 34px;
 }
 
+.square {
+  background: #fff;
+}
+
+.square-winner {
+  background: #ffff00;
+}
+
 .board-row:after {
   clear: both;
-  content: '';
+  content: "";
   display: table;
 }
 
