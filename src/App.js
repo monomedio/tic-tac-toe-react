@@ -15,7 +15,7 @@ function Board({ squares, xIsNext, onPlay }) {
     }
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? "X" : "O";
-    onPlay(nextSquares);
+    onPlay({ squares: nextSquares, choice: i });
   };
 
   let winner = calculateWinner(squares);
@@ -63,10 +63,12 @@ function Board({ squares, xIsNext, onPlay }) {
 }
 
 function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [history, setHistory] = useState([
+    { squares: Array(9).fill(null), choice: null },
+  ]);
   const [currentMove, setCurrentMove] = useState(0);
   const [isReversed, setIsReversed] = useState(false);
-  const currentSquares = history[currentMove];
+  const currentSquares = history[currentMove].squares;
   const xIsNext = currentMove % 2 === 0;
 
   const handlePlay = (nextSquares) => {
@@ -85,7 +87,12 @@ function Game() {
 
   // dynamically generates an array of buttons that visit each game state in history
   const moves = history.map((squares, move) => {
-    let description = move > 0 ? `Go to move # ${move}` : `Go to game start`;
+    let description =
+      move > 0
+        ? `(${squares.choice % 3}, ${Math.floor(
+            squares.choice / 3
+          )}) Go to move # ${move}`
+        : `Go to game start`;
     return (
       <li key={move}>
         {move === currentMove ? (
